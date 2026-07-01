@@ -48,3 +48,9 @@ Console.WriteLine("Нажми [Enter] в консоли, чтобы остано
 
 Console.ReadLine();
 cts.Cancel();
+
+
+using (var db = new PowerlifterBot.Database.BotDbContext())
+{
+    db.Database.EnsureCreated();
+}

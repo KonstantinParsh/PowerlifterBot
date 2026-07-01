@@ -51,18 +51,34 @@ public class CallbackQueryHandler
                 {
                     currentProfile.WeightUnit = callbackQuery.Data == "agree_btn"
                         ? WeightUnit.Lbs : WeightUnit.Kg;
+
+                    var dbProfile = new UserProfile
+                    {
+                        TelegramId = chatId,
+                        Name = currentProfile.Name,
+                        Age = currentProfile.Age,
+                        BodyWeight = currentProfile.BodyWeight,
+                        Height = currentProfile.Height,
+                        WeightUnit = currentProfile.WeightUnit
+                    };
+
+                    using (var db = new PowerlifterBot.Database.BotDbContext())
+                    {
+                        db.Users.Add(dbProfile);
+                        await db.SaveChangesAsync(cancellationToken);
+                    }
                     
-                    userProfiles.TryRemove(chatId, out var finalProfile);
+                    userProfiles.TryRemove(chatId, out _);
                     userSteps.TryRemove(chatId, out _);
 
                     await bot.EditMessageText(
                         chatId: chatId,
                         messageId: messageId,
                         text: $"Анкета успешно сохранена!\n\n" +
-                              $"- ИМЯ: {finalProfile.Name}\n" +
-                              $"- ВОЗРАСТ: {finalProfile.Age}\n" +
-                              $"- РОСТ: {finalProfile.Height}\n" +
-                              $"- ВЕС: {finalProfile.BodyWeight}\n",
+                              $"- ИМЯ: {dbProfile.Name}\n" +
+                              $"- ВОЗРАСТ: {dbProfile.Age}\n" +
+                              $"- РОСТ: {dbProfile.Height}\n" +
+                              $"- ВЕС: {dbProfile.BodyWeight}\n",
                         replyMarkup: null,
                         cancellationToken: cancellationToken);
                 }
