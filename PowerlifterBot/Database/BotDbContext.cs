@@ -6,6 +6,7 @@ namespace PowerlifterBot.Database;
 public class BotDbContext : DbContext
 {
     public DbSet<UserProfile> Users { get; set; }
+    public DbSet<WorkoutRecords> WorkoutRecords { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

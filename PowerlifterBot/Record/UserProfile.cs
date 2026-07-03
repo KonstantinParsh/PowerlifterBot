@@ -13,4 +13,7 @@ public class UserProfile
     public double BodyWeight { get; set; }
     public int Height { get; set; }
     public WeightUnit WeightUnit { get; set; }
+    
+    
+    public virtual ICollection<WorkoutRecords> Records { get; set; } = new List<WorkoutRecords>();
 }

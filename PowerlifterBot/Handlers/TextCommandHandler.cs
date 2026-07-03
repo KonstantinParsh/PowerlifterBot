@@ -4,6 +4,8 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using System.Collections.Concurrent;
+using Microsoft.EntityFrameworkCore;
+using PowerlifterBot.Database;
 using PowerlifterBot.Enums;
 using PowerlifterBot.Record;
 
@@ -22,20 +24,54 @@ public class TextCommandHandler
 
         if (messageText == "/start")
         {
-            var welcomeButtons = new InlineKeyboardMarkup(new[] {
-                new[] { InlineKeyboardButton.WithCallbackData("📝 Заполнить анкету", "start_btn") },
-                new[] { InlineKeyboardButton.WithCallbackData("🏆 Таблица рекордов", "records_btn") }
-            });
+            using (var db = new BotDbContext())
+            {
+                var user = await db.Users.FirstOrDefaultAsync(u => u.TelegramId == chatId, cancellationToken);
+
+                if (user != null)
+                {
+                    var mainMenuBtns = new InlineKeyboardMarkup(new[]
+                    {
+                        new[]
+                        {
+                            InlineKeyboardButton.WithCallbackData("Внести рекорд", "menu_add_record"),
+                            InlineKeyboardButton.WithCallbackData("Таблица прогресса", "menu_user_records_table")
+                        },
+                        new[]
+                        {
+                            InlineKeyboardButton.WithCallbackData("Таблица рекордов пользователей", "menu_users_records")
+                        },
+                        new[]
+                        {
+                            InlineKeyboardButton.WithCallbackData("Настройки", "menu_settings")
+                        }
+                    });
+
+                    await bot.SendPhoto(
+                        chatId: chatId,
+                        photo: InputFile.FromUri("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6GNJE-j0zldl5Tg4JV9jQ5giNVmQZLCowlDdaLn5yphR6u34JJ7B6xY&s=10"),
+                        caption: $"Рад тебя снова видеть, {user.Name}!",
+                        replyMarkup: mainMenuBtns,
+                        cancellationToken: cancellationToken);
+                }
+                else
+                {
+                    var welcomeButtons = new InlineKeyboardMarkup(new[] {
+                        new[] { InlineKeyboardButton.WithCallbackData("📝 Заполнить анкету", "start_btn") },
+                        new[] { InlineKeyboardButton.WithCallbackData("🏆 Таблица рекордов", "records_btn") }
+                    });
             
-            var sentPhotoMessage = await bot.SendPhoto(
-                chatId: chatId,
-                photo: InputFile.FromUri("https://cdn.shopify.com/s/files/1/1103/4864/files/Artboard_4-min.jpg?v=1726766796"),
-                caption: "Добро пожаловать в дневник пауэрлифтера!\n\nЗдесь ты можешь фиксировать свои рекорды в силовом троеборье, а также соревноваться с другими пользователями!\n\nНу что, готов начать?",
-                replyMarkup: welcomeButtons,
-                cancellationToken: cancellationToken);
+                    var sentPhotoMessage = await bot.SendPhoto(
+                        chatId: chatId,
+                        photo: InputFile.FromUri("https://cdn.shopify.com/s/files/1/1103/4864/files/Artboard_4-min.jpg?v=1726766796"),
+                        caption: "Добро пожаловать в дневник пауэрлифтера!\n\nЗдесь ты можешь фиксировать свои рекорды в силовом троеборье, а также соревноваться с другими пользователями!\n\nНу что, готов начать?",
+                        replyMarkup: welcomeButtons,
+                        cancellationToken: cancellationToken);
             
-            userProfiles[chatId] = new TempProfile { WelcomeMessageId = sentPhotoMessage.MessageId };
-            return;
+                    userProfiles[chatId] = new TempProfile { WelcomeMessageId = sentPhotoMessage.MessageId };
+                    return;
+                }
+            }
         }
 
         if (userSteps.TryGetValue(chatId, out var currentStep))
