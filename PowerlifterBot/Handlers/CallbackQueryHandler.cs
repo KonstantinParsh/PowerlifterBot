@@ -20,6 +20,25 @@ public class CallbackQueryHandler
     {
         var chatId = callbackQuery.Message!.Chat.Id;
         var messageId = callbackQuery.Message.MessageId;
+        
+        // ГЛАВНОЕ МЕНЮ НАСТРОЕК
+        var mainSettingsBtns = new InlineKeyboardMarkup(new[]
+        {
+            new[] { InlineKeyboardButton.WithCallbackData("👤 Настройки профиля", "menu_user_settings_btn") },
+            new[] { InlineKeyboardButton.WithCallbackData("🔍 Настройки отображения", "menu_vizualize_btn") },
+            new[] { InlineKeyboardButton.WithCallbackData("🔙 Назад", "back_to_main_menu_btn") },
+        });
+        
+        // НАСТРОЙКИ ПРОФИЛЯ
+        var userSettingsBtns = new InlineKeyboardMarkup(new[]
+        {
+            new[] { InlineKeyboardButton.WithCallbackData("👤 Изменить ник", "profile_change_nickname_btn") },
+            new[] { InlineKeyboardButton.WithCallbackData("⚖ Изменить вес", "profile_change_bodyweight_btn") },
+            new[] { InlineKeyboardButton.WithCallbackData("📏 Изменить рост", "profile_change_height_btn") },
+            new[] { InlineKeyboardButton.WithCallbackData("👴 Изменить возраст", "profile_change_age_btn") },
+            new[] { InlineKeyboardButton.WithCallbackData("❌ Удалить профиль", "profile_delete_btn") },
+            new[] { InlineKeyboardButton.WithCallbackData("🔙 Назад", "back_to_main_settings_menu_btn") }
+        });
 
         switch (callbackQuery.Data)
         {
@@ -94,13 +113,6 @@ public class CallbackQueryHandler
             
             // -- ГЛАВНОЕ МЕНЮ НАСТРОЕК --
             case "menu_settings":
-                var mainSettingsBtns = new InlineKeyboardMarkup(new[]
-                {
-                    new[] { InlineKeyboardButton.WithCallbackData("👤 Настройки профиля", "menu_user_settings_btn") },
-                    new[] { InlineKeyboardButton.WithCallbackData("🔍 Настройки отображения", "menu_vizualize_btn") },
-                    new[] { InlineKeyboardButton.WithCallbackData("🔙 Назад", "back_to_main_menu_btn") },
-                });
-                
                 await bot.EditMessageMedia(
                     chatId: chatId,
                     messageId: messageId,
@@ -147,16 +159,6 @@ public class CallbackQueryHandler
             
             // -- НАСТРОЙКИ ПРОФИЛЯ --
             case "menu_user_settings_btn":
-                var userSettingsBtns = new InlineKeyboardMarkup(new[]
-                {
-                    new[] { InlineKeyboardButton.WithCallbackData("👤 Изменить ник", "profile_change_nickname_btn") },
-                    new[] { InlineKeyboardButton.WithCallbackData("⚖ Изменить вес", "profile_change_bodyweight_btn") },
-                    new[] { InlineKeyboardButton.WithCallbackData("📏 Изменить рост", "profile_change_height_btn") },
-                    new[] { InlineKeyboardButton.WithCallbackData("👴 Изменить возраст", "profile_change_age_btn") },
-                    new[] { InlineKeyboardButton.WithCallbackData("❌ Удалить профиль", "profile_delete_btn") },
-                    new[] { InlineKeyboardButton.WithCallbackData("🔙 Назад", "back_to_main_settings_menu_btn") }
-                });
-
                 await bot.EditMessageMedia(
                     chatId: chatId,
                     messageId: messageId,
@@ -168,6 +170,19 @@ public class CallbackQueryHandler
                     cancellationToken: cancellationToken);
                 break;
             // -- КОНЕЦ НАСТРОЕК ПРОФИЛЯ --
+            
+            // - КНОПКА "НАЗАД" -
+            case "back_to_main_settings_menu_btn":
+                await bot.EditMessageMedia(
+                    chatId: chatId,
+                    messageId: messageId,
+                    media: new InputMediaPhoto(InputFile.FromUri("https://elements-resized.envatousercontent.com/elements-video-cover-images/6e739fc0-502b-469a-aaa3-07aa218d2179/video_preview/video_preview_0000.jpg?w=500&cf_fit=cover&q=85&format=auto&s=54c04f12ccaa2febe8f3c7791726b11549bf1c43f165cc5217d285cc580391ce"))
+                    {
+                        Caption = $"Сейчас Вы находитесь в меню настроек\n\nВыберите что хотите изменить:"
+                    },
+                    replyMarkup: mainSettingsBtns,
+                    cancellationToken: cancellationToken);
+                break;
         }
         
         await bot.AnswerCallbackQuery(
