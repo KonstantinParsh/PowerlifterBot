@@ -157,7 +157,9 @@ public class CallbackQueryHandler
             
             // -- КОНЕЦ ГЛАВНОГО МЕНЮ НАСТРОЕК --
             
+            
             // -- НАСТРОЙКИ ПРОФИЛЯ --
+            
             case "menu_user_settings_btn":
                 await bot.EditMessageMedia(
                     chatId: chatId,
@@ -169,7 +171,12 @@ public class CallbackQueryHandler
                     replyMarkup: userSettingsBtns,
                     cancellationToken: cancellationToken);
                 break;
-            // -- КОНЕЦ НАСТРОЕК ПРОФИЛЯ --
+            
+            // - КНОПКА "ИЗМЕНИТЬ НИК" -
+            case "profile_change_nickname_btn":
+                
+                break;
+            // - КОНЕЦ КНОПКИ "ИЗМЕНИТЬ НИК" -
             
             // - КНОПКА "НАЗАД" -
             case "back_to_main_settings_menu_btn":
@@ -183,6 +190,11 @@ public class CallbackQueryHandler
                     replyMarkup: mainSettingsBtns,
                     cancellationToken: cancellationToken);
                 break;
+            // - КОНЕЦ КНОПКИ "НАЗАД" - 
+            
+            // -- КОНЕЦ НАСТРОЕК ПРОФИЛЯ --
+            
+            
         }
         
         await bot.AnswerCallbackQuery(
