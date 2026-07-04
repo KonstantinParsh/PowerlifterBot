@@ -34,23 +34,23 @@ public class TextCommandHandler
                     {
                         new[]
                         {
-                            InlineKeyboardButton.WithCallbackData("Внести рекорд", "menu_add_record"),
-                            InlineKeyboardButton.WithCallbackData("Таблица прогресса", "menu_user_records_table")
+                            InlineKeyboardButton.WithCallbackData("📝 Внести рекорд", "menu_add_record"),
+                            InlineKeyboardButton.WithCallbackData("📈 Прогресс", "menu_user_records_table")
                         },
                         new[]
                         {
-                            InlineKeyboardButton.WithCallbackData("Таблица рекордов пользователей", "menu_users_records")
+                            InlineKeyboardButton.WithCallbackData("🏆 Рекорды пользователей", "menu_users_records")
                         },
                         new[]
                         {
-                            InlineKeyboardButton.WithCallbackData("Настройки", "menu_settings")
+                            InlineKeyboardButton.WithCallbackData("⚙ Настройки", "menu_settings")
                         }
                     });
 
                     await bot.SendPhoto(
                         chatId: chatId,
                         photo: InputFile.FromUri("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6GNJE-j0zldl5Tg4JV9jQ5giNVmQZLCowlDdaLn5yphR6u34JJ7B6xY&s=10"),
-                        caption: $"Рад тебя снова видеть, {user.Name}!",
+                        caption: $"Рад снова тебя видеть, {user.Name}!",
                         replyMarkup: mainMenuBtns,
                         cancellationToken: cancellationToken);
                 }
@@ -96,7 +96,7 @@ public class TextCommandHandler
                     await bot.EditMessageCaption(
                         chatId: chatId,
                         messageId: currentProfile.WelcomeMessageId,
-                        caption: "Шаг 2 из 5\n\nСколько тебе лет? (Цифрами)",
+                        caption: "📝 Шаг 2 из 5\n\nСколько тебе лет? (Цифрами)",
                         cancellationToken: cancellationToken);
                     break;
                 
@@ -111,7 +111,7 @@ public class TextCommandHandler
                             await bot.EditMessageCaption(
                                 chatId: chatId,
                                 messageId: currentProfile.WelcomeMessageId,
-                                caption: "Шаг 3 из 5\n\nСколько ты весишь (в килограммах)?\n\n(пример ввода: 65.5)",
+                                caption: "📝 Шаг 3 из 5\n\nСколько ты весишь (в килограммах)?\n\n(пример ввода: 65.5)",
                                 cancellationToken: cancellationToken);
                         }
                         catch (ArgumentException ex)
@@ -145,7 +145,7 @@ public class TextCommandHandler
                             await bot.EditMessageCaption(
                                 chatId: chatId,
                                 messageId: currentProfile.WelcomeMessageId,
-                                caption: "Шаг 4 из 5\n\nКакой у тебя рост (в сантиметрах)?\n\n(пример ввода: 175)",
+                                caption: "📝 Шаг 4 из 5\n\nКакой у тебя рост (в сантиметрах)?\n\n(пример ввода: 175)",
                                 cancellationToken: cancellationToken);
                         }
                         catch (ArgumentException ex)
@@ -192,7 +192,7 @@ public class TextCommandHandler
 
                             var newTextMessage = await bot.SendMessage(
                                 chatId: chatId,
-                                text: "Шаг 5 из 5\n\nЖелаете ли вы изменить единицы измерения на фунты?\n\n(Все веса в таблицах будут отображаться в фунтах и рекорды будут регистрироваться в фунтах)",
+                                text: "📝 Шаг 5 из 5\n\nЖелаете ли вы изменить единицы измерения на фунты?\n\n(Все веса в таблицах будут отображаться в фунтах и рекорды будут регистрироваться в фунтах)",
                                 replyMarkup: userChoice,
                                 cancellationToken: cancellationToken);
                             

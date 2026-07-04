@@ -39,7 +39,7 @@ public class CallbackQueryHandler
                     messageId: messageId,
                     media: new InputMediaPhoto(InputFile.FromUri("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjz-3GPvY2JcmIIkGfUIuq916nKOvui1UIUH61Gu_wL1GR-5C-Mt5br2s&s=10"))
                     {
-                        Caption = "Шаг 1 из 5\n\nНапиши свое имя или псевдоним.\n\n(Будет отображаться в таблице рекордов)"
+                        Caption = "📝 Шаг 1 из 5\n\nНапиши свое имя или псевдоним.\n\n(Будет отображаться в таблице рекордов)"
                     },
                     replyMarkup: null,
                     cancellationToken: cancellationToken);
@@ -96,9 +96,9 @@ public class CallbackQueryHandler
             case "menu_settings":
                 var mainSettingsBtns = new InlineKeyboardMarkup(new[]
                 {
-                    new[] { InlineKeyboardButton.WithCallbackData("Настройки профиля", "menu_user_settings_btn") },
-                    new[] { InlineKeyboardButton.WithCallbackData("Настройки отображения", "menu_vizualize_btn") },
-                    new[] { InlineKeyboardButton.WithCallbackData("Назад", "back_to_main_menu_btn") },
+                    new[] { InlineKeyboardButton.WithCallbackData("👤 Настройки профиля", "menu_user_settings_btn") },
+                    new[] { InlineKeyboardButton.WithCallbackData("🔍 Настройки отображения", "menu_vizualize_btn") },
+                    new[] { InlineKeyboardButton.WithCallbackData("🔙 Назад", "back_to_main_menu_btn") },
                 });
                 
                 await bot.EditMessageMedia(
@@ -118,16 +118,16 @@ public class CallbackQueryHandler
                 {
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData("Внести рекорд", "menu_add_record"),
-                        InlineKeyboardButton.WithCallbackData("Таблица прогресса", "menu_user_records_table")
+                        InlineKeyboardButton.WithCallbackData("📝 Внести рекорд", "menu_add_record"),
+                        InlineKeyboardButton.WithCallbackData("📈 Таблица прогресса", "menu_user_records_table")
                     },
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData("Таблица рекордов пользователей", "menu_users_records")
+                        InlineKeyboardButton.WithCallbackData("🏆 Таблица рекордов пользователей", "menu_users_records")
                     },
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData("Настройки", "menu_settings")
+                        InlineKeyboardButton.WithCallbackData("⚙ Настройки", "menu_settings")
                     }
                 });
 
@@ -149,12 +149,12 @@ public class CallbackQueryHandler
             case "menu_user_settings_btn":
                 var userSettingsBtns = new InlineKeyboardMarkup(new[]
                 {
-                    new[] { InlineKeyboardButton.WithCallbackData("Изменить ник", "profile_change_nickname_btn") },
-                    new[] { InlineKeyboardButton.WithCallbackData("Изменить вес", "profile_change_bodyweight_btn") },
-                    new[] { InlineKeyboardButton.WithCallbackData("Изменить рост", "profile_change_height_btn") },
-                    new[] { InlineKeyboardButton.WithCallbackData("Изменить возраст", "profile_change_age_btn") },
-                    new[] { InlineKeyboardButton.WithCallbackData("Удалить профиль", "profile_delete_btn") },
-                    new[] { InlineKeyboardButton.WithCallbackData("Назад", "back_to_main_settings_menu_btn") }
+                    new[] { InlineKeyboardButton.WithCallbackData("👤 Изменить ник", "profile_change_nickname_btn") },
+                    new[] { InlineKeyboardButton.WithCallbackData("⚖ Изменить вес", "profile_change_bodyweight_btn") },
+                    new[] { InlineKeyboardButton.WithCallbackData("📏 Изменить рост", "profile_change_height_btn") },
+                    new[] { InlineKeyboardButton.WithCallbackData("👴 Изменить возраст", "profile_change_age_btn") },
+                    new[] { InlineKeyboardButton.WithCallbackData("❌ Удалить профиль", "profile_delete_btn") },
+                    new[] { InlineKeyboardButton.WithCallbackData("🔙 Назад", "back_to_main_settings_menu_btn") }
                 });
 
                 await bot.EditMessageMedia(
