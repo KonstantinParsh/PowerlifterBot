@@ -174,7 +174,20 @@ public class CallbackQueryHandler
             
             // - КНОПКА "ИЗМЕНИТЬ НИК" -
             case "profile_change_nickname_btn":
+                try
+                {
+                    await bot.DeleteMessage(
+                        chatId: chatId,
+                        messageId: messageId,
+                        cancellationToken: cancellationToken);
+                }
+                catch {  }
                 
+                var changeNicknameMessage = await bot.SendMessage(
+                    chatId: chatId,
+                    text: "📝 Введите новое имя или псевдоним:",
+                    cancellationToken: cancellationToken);
+                // ДОПИСАТЬ
                 break;
             // - КОНЕЦ КНОПКИ "ИЗМЕНИТЬ НИК" -
             
